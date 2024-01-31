@@ -1,10 +1,10 @@
 #Importing Dependies
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn import svm
-from sklearn.metrics import accuracy_score
+.  import numpy as np
+   import pandas as pd
+   from sklearn.preprocessing import StandardScaler
+   from sklearn.model_selection import train_test_split
+   from sklearn import svm
+   from sklearn.metrics import accuracy_score
 
 #Data Collection and Analysis
 
@@ -58,54 +58,50 @@ from sklearn.metrics import accuracy_score
 
 .  print(X.shape , X_train.shape,X_test.shape)
 
+#Data Standardization
+
+.  scaler = StandardScaler()
+
+.  scaler.fit(X_train)
+
+.  X_train = scaler.transform(X_train)
+   X_test = scaler.transform(X_test)
+
+.  print(X_train)
+
 #Model Training
-#Logistic Regression
+#Support Vector Machine Model
 
-.  model = LogisticRegression()
+.  model = svm.SVC(kernel='linear')
 
-# training the logistic Regression model with Training data
+# training the SVM model with training data
 .  model.fit(X_train, Y_train)
 
 #Model Evaluation
 #Accuracy Score
 
-# accuracy on training data
+# accuracy score on training data
 .  X_train_prediction = model.predict(X_train)
-   training_data_accuracy = accuracy_score(X_train_prediction, Y_train)
+   training_data_accuracy = accuracy_score(Y_train, X_train_prediction)
 
-.  print ('Accuracy on training data :' , training_data_accuracy)
+.  print('Accuracy score of training data : ', training_data_accuracy)
 
+# accuracy score on training data
 .  X_test_prediction = model.predict(X_test)
-   test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+   test_data_accuracy = accuracy_score(Y_test, X_test_prediction)
 
 .  print ('Accuracy on Test data :' , test_data_accuracy)
 
 #Building a Predictive System
 
-.  input_data = (41,0,1,130,204,0,0,172,0,1.4,2,0,2)
-   input_data_as_numpy_array = np.array(input_data)      #change the input data to a numpy array
-   input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)   #reshape the numpy array as we are predicting for only one instance
-   prediction = model.predict(input_data_reshaped)
-   print(prediction)
-   if(prediction[0] == 0):
-      print('The person does not have a Heart Disease')
+. input_data = (197.07600,206.89600,192.05500,0.00289,0.00001,0.00166,0.00168,0.00498,0.01098,0.09700,0.00563,0.00680,0.00802,0.01689,0.00339,26.77500,0.422229,0.741367,-7.348300,0.177551,1.743867,0.085569)
+  input_data_as_numpy_array = np.asarray(input_data)    # changing input data to a numpy array
+  input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)     # reshape the numpy array
+  std_data = scaler.transform(input_data_reshaped)    # standardize the data
+  prediction = model.predict(std_data)
+  print(prediction)
+  if (prediction[0] == 0):
+    print("The Person does not have Parkinsons Disease")
   else:
-      print('The persom has heart Disease')
-     
+    print("The Person has Parkinsons")
 
-# testing the models with 2 example(above is for defective heart case and the below one ia for healthy heart case
-
-
-.  input_data = (62,0,0,140,268,0,0,160,0,3.6,0,2,2)
-   input_data_as_numpy_array = np.array(input_data)      #change the input data to a numpy array
-   input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)    #reshape the numpy array as we are predicting for only one instance
-   prediction = model.predict(input_data_reshaped)
-   print(prediction)
-  if(prediction[0] == 0):
-    print('The person does not have a Heart Disease')
-  else:
-    print('The persom has heart Disease')
-
-
-
-                 
